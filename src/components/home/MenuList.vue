@@ -44,6 +44,8 @@ export default {};
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 0.3rem;
+    font-weight: 400;
     .icon {
       width: 0.84rem;
       height: 0.84rem;
