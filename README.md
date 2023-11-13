@@ -1,2 +1,5 @@
 # NetEaseMusicMobile
-高仿网易云音乐移动端Web实现
+This is a sample web App imitate the NetEaseMusic UX/UI and implemented simple music playback function
+
+# Backend API
+[API Support](https://www.runoob.com](https://docs.neteasecloudmusicapi.binaryify.com/#/?id=neteasecloudmusicapi)https://docs.neteasecloudmusicapi.binaryify.com/#/?id=neteasecloudmusicapi)
