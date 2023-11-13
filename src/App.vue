@@ -12,4 +12,7 @@
     width: .4rem;
     height: .4rem;
   }
+  a {
+    color: black;
+  }
 </style>
