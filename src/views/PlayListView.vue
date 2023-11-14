@@ -18,6 +18,8 @@ export default {
             let id = useRouter().currentRoute.value.query.id
             let response = await getPlayList(id)
             state.playList = response.data.playlist
+
+            sessionStorage.setItem('playListDetail', JSON.stringify(state))
         })
         return { state }
     },
