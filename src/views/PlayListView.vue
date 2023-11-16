@@ -1,30 +1,37 @@
 <template>
-    <PlayListTop :playList="state.playList"/>
+    <PlayListTop :playList="state.playList" />
+    <PlayList :playListDetail="state.playListDetail" :subCount="state.playList.subscribedCount"/>
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
-import { getPlayList } from '../request/api/item.js';
+import { getPlayList, getPlayListDetail } from '../request/api/playlist.js';
 import { reactive } from 'vue';
 import PlayListTop from "@/components/playlist/PlayListTop.vue"
+import PlayList from "@/components/playlist/MusicList.vue"
 export default {
     setup() {
         const state = reactive({
-            playList: {}
+            playList: {},
+            playListDetail: []
         })
 
         onMounted(async () => {
             let id = useRouter().currentRoute.value.query.id
-            let response = await getPlayList(id)
-            state.playList = response.data.playlist
+            let playListRes = await getPlayList(id)
+            state.playList = playListRes.data.playlist
+
+            let playListDeatil = await getPlayListDetail(id, 20, 0)
+            state.playListDetail = playListDeatil.data.songs
 
             sessionStorage.setItem('playListDetail', JSON.stringify(state))
         })
         return { state }
     },
     components: {
-        PlayListTop
+        PlayListTop,
+        PlayList
     }
 }
 </script>

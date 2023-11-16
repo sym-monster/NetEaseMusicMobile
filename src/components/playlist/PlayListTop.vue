@@ -44,19 +44,19 @@
         </div>
         <div class="topMenu">
             <div class="comment">
-                <van-icon name="comment-o" />
+                <van-icon name="comment-o" size=".4rem"/>
                 <span>评论</span>
             </div>
             <div class="share">
-                <van-icon name="share-o" />
+                <van-icon name="share-o" size=".4rem"/>
                 <span>分享</span>
             </div>
             <div class="download">
-                <van-icon name="down" />
+                <van-icon name="down" size=".4rem"/>
                 <span>下载</span>
             </div>
             <div class="selector">
-                <van-icon name="passed" />
+                <van-icon name="passed" size=".4rem"/>
                 <span>多选</span>
             </div>
         </div>
@@ -78,12 +78,12 @@ export default {
 <style lang="less" scoped>
 .topBlock {
     width: 100%;
-    height: 10rem;
+    height: 5rem;
 
     .topbarBg {
         width: 100%;
         height: 10rem;
-        position: fixed;
+        position: absolute;
         z-index: -1;
         filter: blur(30px);
     }
@@ -225,7 +225,13 @@ export default {
         justify-content: space-around;
         margin-top: .4rem;
 
+        span {
+            font-size: .25rem;
+        }
+
         .comment {
+            height: .9rem;
+            justify-content: space-between;
             display: flex;
             flex-direction: column;
             color: white;
@@ -233,6 +239,8 @@ export default {
         }
 
         .share {
+            height: .9rem;
+            justify-content: space-between;
             display: flex;
             flex-direction: column;
             color: white;
@@ -240,6 +248,8 @@ export default {
         }
 
         .download {
+            height: .9rem;
+            justify-content: space-between;
             display: flex;
             flex-direction: column;
             color: white;
@@ -247,6 +257,8 @@ export default {
         }
 
         .selector {
+            height: .9rem;
+            justify-content: space-between;
             display: flex;
             flex-direction: column;
             color: white;
