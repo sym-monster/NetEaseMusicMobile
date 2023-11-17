@@ -16,6 +16,7 @@ export default createStore({
       },
     ],
     currentIndex: 0,
+    currentMusicID: 1398283847,
     isPlaying: false
   },
   getters: {
@@ -23,6 +24,15 @@ export default createStore({
   mutations: {
     setIsPlaying(state, value) {
       state.isPlaying = value
+    },
+    updateCurrentPlayList(state, value) {
+      state.currentPlayList = value
+    },
+    updateCurrentIndex(state, value) {
+      state.currentIndex = value
+    },
+    updateCurrentMusicID(state, value) {
+      state.currentMusicID = value
     }
   },
   actions: {

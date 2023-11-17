@@ -23,7 +23,7 @@ import { mapMutations } from 'vuex'
 
 export default {
     computed: {
-        ...mapState(['currentPlayList', 'currentIndex', 'isPlaying'])
+        ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying'])
     },
     mounted() {
 
@@ -42,6 +42,13 @@ export default {
         },
 
         ...mapMutations(['setIsPlaying'])
+    },
+    watch: {
+        currentMusicID: function() {
+            console.log(this.currentMusicID)
+            this.$refs.audio.autoplay = true
+            this.setIsPlaying(true)
+        }
     }
 }
 </script>
@@ -97,6 +104,8 @@ export default {
 
     .right {
         padding-right: .2rem;
+        display: flex;
+        flex-direction: row;
 
         .icoPlay {
             padding-left: .2rem;

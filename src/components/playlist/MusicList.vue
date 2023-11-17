@@ -15,7 +15,7 @@
         </div>
         <div class="musicList">
             <ul>
-                <li v-for="(item, index) in playListDetail" :key="item.al.id" class="musicItemLayout">
+                <li v-for="(item, index) in playListDetail" :key="item.al.id" class="musicItemLayout" @click="playMusic(index, item.id)">
                     <span class="index">{{ index + 1 }}</span>
                     <div class="musicInfo">
                         <span class="musicName">{{ item.al.name ? item.al.name : "未获取到歌曲名称" }}</span>
@@ -34,11 +34,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
+
 export default {
     setup(props) {
         console.log(props)
     },
-    props: ['playListDetail', 'subCount']
+    props: ['playListDetail', 'subCount'],
+    computed: {
+        ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying'])
+    },
+    methods: {
+        playMusic(clickIndex, musicID) {
+            this.updateCurrentPlayList(this.playListDetail)
+            this.updateCurrentIndex(clickIndex)
+            this.updateCurrentMusicID(musicID)
+        },
+        ...mapMutations(['updateCurrentPlayList', 'updateCurrentIndex', 'updateCurrentMusicID'])
+    }
 }
 </script>
 
