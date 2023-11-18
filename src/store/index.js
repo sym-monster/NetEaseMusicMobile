@@ -17,7 +17,8 @@ export default createStore({
     ],
     currentIndex: 0,
     currentMusicID: 1398283847,
-    isPlaying: false
+    isPlaying: false,
+    isShowMusicDetail: false
   },
   getters: {
   },
@@ -33,6 +34,9 @@ export default createStore({
     },
     updateCurrentMusicID(state, value) {
       state.currentMusicID = value
+    },
+    updateIsShowMusicDetail(state, value) {
+      state.isShowMusicDetail = value
     }
   },
   actions: {

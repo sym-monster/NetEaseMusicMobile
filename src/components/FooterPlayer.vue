@@ -3,27 +3,31 @@
         <div class="left">
             <img :src="currentPlayList[currentIndex].al.picUrl" alt="" class="musicCover">
         </div>
-        <div class="middle">
+        <div class="middle" @click="showMusicDetail">
             <span class="musicName">{{ currentPlayList[currentIndex].al.name }}</span>
             <span class="hint">横滑切换上下首哦</span>
         </div>
         <div class="right">
-            <van-icon name="play-circle-o" size=".5rem" class="icoPlay" @click="playMusic" v-if="!isPlaying"/>
+            <van-icon name="play-circle-o" size=".5rem" class="icoPlay" @click="playMusic" v-if="!isPlaying" />
             <van-icon name="pause-circle-o" size=".5rem" class="icoPlay" @click="playMusic" v-else />
             <van-icon name="list-switch" size=".5rem" />
         </div>
         <audio ref="audio"
             :src="`https://music.163.com/song/media/outer/url?id=${currentPlayList[currentIndex].id}.mp3`"></audio>
+        <van-popup v-model:show="isShowMusicDetail" position="right" :style="{ width: '100%', height: '100%' }">
+            <MusicDetail :musicInfo="currentPlayList[currentIndex]"/>
+        </van-popup>
     </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
+import { MusicDetail } from '@/components/MusicDetail.vue'
 
 export default {
     computed: {
-        ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying'])
+        ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying', 'isShowMusicDetail'])
     },
     mounted() {
 
@@ -40,15 +44,20 @@ export default {
                 console.log(this.isPlaying)
             }
         },
-
-        ...mapMutations(['setIsPlaying'])
+        showMusicDetail() {
+            this.updateIsShowMusicDetail(true)
+        },
+        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail'])
     },
     watch: {
-        currentMusicID: function() {
+        currentMusicID: function () {
             console.log(this.currentMusicID)
             this.$refs.audio.autoplay = true
             this.setIsPlaying(true)
         }
+    },
+    components: {
+        MusicDetail
     }
 }
 </script>
