@@ -15,7 +15,7 @@
         <audio ref="audio"
             :src="`https://music.163.com/song/media/outer/url?id=${currentPlayList[currentIndex].id}.mp3`"></audio>
         <van-popup v-model:show="isShowMusicDetail" position="right" :style="{ width: '100%', height: '100%' }">
-            <MusicDetail :musicInfo="currentPlayList[currentIndex]"/>
+            <MusicDetail :musicInfo="currentPlayList[currentIndex]" :playMusic="playMusic"/>
         </van-popup>
     </div>
 </template>
@@ -23,7 +23,7 @@
 <script>
 import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
-import { MusicDetail } from '@/components/MusicDetail.vue'
+import MusicDetail from '@/components/MusicDetail.vue'
 
 export default {
     computed: {
