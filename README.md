@@ -13,5 +13,5 @@ Server
   node app.js
 ```
 
-# Backend API
+# Backend
 API support [NeteaseCloudMusicApi](https://docs.neteasecloudmusicapi.binaryify.com/#/)
