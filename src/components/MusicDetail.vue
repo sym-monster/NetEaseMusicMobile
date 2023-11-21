@@ -3,7 +3,7 @@
         <img :src="musicInfo.al.picUrl" alt="" class="bg">
         <div class="content">
             <div class="topbar">
-                <van-icon name="arrow-left" class="iconBack" size=".5rem" @click="back"/>
+                <van-icon name="arrow-left" class="iconBack" size=".5rem" @click="back" />
                 <div class="info">
                     <span class="name">{{ musicInfo.al.name }}</span>
                     <div class="authorBlock">
@@ -21,9 +21,11 @@
                 <img src="@/assets/disc-plus.png" alt="disc-plus" class="discPlus">
                 <img src="@/assets/needle-ab.png" alt="needle-ab" class="needleAB">
                 <img :src="musicInfo.al.picUrl" alt="music-cover" class="mucicCover">
-                <span class="lyric">
-                    {{ lyric }}
-                </span>
+                <div class="lyric">
+                    <p v-for="item in finalLyric" :key="item" class="lyricItem">
+                        {{ item.lrc }}
+                    </p>
+                </div>
             </div>
             <div class="musicMenu">
                 <van-icon name="like-o" size=".5rem" />
@@ -51,7 +53,24 @@ import { mapMutations } from 'vuex'
 
 export default {
     computed: {
-        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric'])
+        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric']),
+        finalLyric: function () {
+            let resultArr
+            if (this.lyric) {
+                resultArr = this.lyric.split(/[(\r\n)\r\n]+/).map((item, index) => {
+                    let min = item.slice(1, 3)
+                    let sec = item.slice(4, 6)
+                    let mesc = item.slice(7, 10)
+                    let lrc = item.slice(11, item.length)
+                    if (isNaN(Number(mesc))) {
+                        mesc = item.slice(7, 9)
+                        lrc = item.slice(10, item.length)
+                    }
+                    return { min, sec, mesc, lrc }
+                })
+            }
+            return resultArr
+        }
     },
     mounted() {
         console.log(this.musicInfo)
@@ -164,10 +183,21 @@ export default {
             border-radius: 50%;
             z-index: -1;
         }
+
         .lyric {
-            max-height: 50vh;
+            width: 100%;
+            max-height: 60vh;
             position: absolute;
             overflow: scroll;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            .lyricItem {
+                line-height: 2em;
+                font-size: .3rem;
+                color: #DDD;
+            }
         }
     }
 
