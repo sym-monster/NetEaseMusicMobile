@@ -1,24 +1,34 @@
 import { createStore } from 'vuex'
+import { getMusicLyric } from '@/request/api/player.js'
 
 export default createStore({
   state: {
     currentPlayList: [
       {
         al: {
-          "id": 82595937,
-          "name": "初恋那件小事 电视剧原声带",
-          "picUrl": "https://p1.music.126.net/5GPFbTQU-kW57PGv_7LeBw==/109951164440649436.jpg",
+          "id": 75310423,
+          "name": "MIDDLE CHILD",
+          "picUrl": "https://p2.music.126.net/AAhmie9sRcxIPyEQDByDBQ==/109951163878582735.jpg",
           "tns": [],
-          "pic_str": "109951164440649436",
-          "pic": 109951164440649440
+          "pic_str": "109951163878582735",
+          "pic": 109951163878582740
         },
-        id: 1398283847
+        ar: [
+          {
+            "id": 36910,
+            "name": "J. Cole",
+            "tns": [],
+            "alias": []
+          }
+        ],
+        id: 1341722986
       },
     ],
     currentIndex: 0,
     currentMusicID: 1398283847,
     isPlaying: false,
-    isShowMusicDetail: false
+    isShowMusicDetail: false,
+    lyric: []
   },
   getters: {
   },
@@ -37,9 +47,16 @@ export default createStore({
     },
     updateIsShowMusicDetail(state, value) {
       state.isShowMusicDetail = value
+    },
+    updateLyric(state, value) {
+      state.lyric = value
     }
   },
   actions: {
+    async getLyric(context, value) {
+      let response = await getMusicLyric(value)
+      context.commit("updateLyric", response.data.lrc.lyric)
+    }
   },
   modules: {
   }

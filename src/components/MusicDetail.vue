@@ -21,6 +21,9 @@
                 <img src="@/assets/disc-plus.png" alt="disc-plus" class="discPlus">
                 <img src="@/assets/needle-ab.png" alt="needle-ab" class="needleAB">
                 <img :src="musicInfo.al.picUrl" alt="music-cover" class="mucicCover">
+                <span class="lyric">
+                    {{ lyric }}
+                </span>
             </div>
             <div class="musicMenu">
                 <van-icon name="like-o" size=".5rem" />
@@ -33,8 +36,8 @@
             <div class="playerDashboard">
                 <van-icon name="replay" size=".5rem" />
                 <van-icon name="arrow-left" size=".5rem" />
-                <van-icon name="pause-circle-o" size=".8rem" v-if="isPlaying" @click="playMusic" />
-                <van-icon name="play-circle-o" size=".8rem" v-else @click="playMusic" />
+                <van-icon name="pause-circle-o" size=".8rem" v-if="isPlaying" @click="exchangePlayerState" />
+                <van-icon name="play-circle-o" size=".8rem" v-else @click="exchangePlayerState" />
                 <van-icon name="arrow" size=".5rem" />
                 <van-icon name="list-switch" size=".5rem" />
             </div>
@@ -48,7 +51,7 @@ import { mapMutations } from 'vuex'
 
 export default {
     computed: {
-        ...mapState(['isPlaying', 'isShowMusicDetail'])
+        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric'])
     },
     mounted() {
         console.log(this.musicInfo)
@@ -57,7 +60,7 @@ export default {
         back() {
             this.updateIsShowMusicDetail(false)
         },
-        playMusic() {
+        exchangePlayerState() {
             this.playMusic()
         },
         ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail'])
@@ -160,6 +163,11 @@ export default {
             position: absolute;
             border-radius: 50%;
             z-index: -1;
+        }
+        .lyric {
+            max-height: 50vh;
+            position: absolute;
+            overflow: scroll;
         }
     }
 

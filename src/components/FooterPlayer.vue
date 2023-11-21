@@ -23,6 +23,7 @@
 <script>
 import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 import MusicDetail from '@/components/MusicDetail.vue'
 
 export default {
@@ -30,7 +31,10 @@ export default {
         ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying', 'isShowMusicDetail'])
     },
     mounted() {
-
+        this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
+    },
+    updated() {
+        this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
     },
     methods: {
         playMusic() {
