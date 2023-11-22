@@ -28,7 +28,8 @@ export default createStore({
     currentMusicID: 1398283847,
     isPlaying: false,
     isShowMusicDetail: false,
-    lyric: []
+    lyric: [],
+    currentTime: 0
   },
   getters: {
   },
@@ -50,6 +51,9 @@ export default createStore({
     },
     updateLyric(state, value) {
       state.lyric = value
+    },
+    updateCurrentTime(state, value) {
+      state.currentTime = value
     }
   },
   actions: {

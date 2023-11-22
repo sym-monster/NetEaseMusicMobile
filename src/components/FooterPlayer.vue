@@ -27,11 +27,17 @@ import { mapActions } from 'vuex'
 import MusicDetail from '@/components/MusicDetail.vue'
 
 export default {
+    data() {
+        return {
+            timeLooper: 0
+        }
+    },
     computed: {
-        ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying', 'isShowMusicDetail'])
+        ...mapState(['currentPlayList', 'currentIndex', 'currentMusicID', 'isPlaying', 'isShowMusicDetail', 'currentTime'])
     },
     mounted() {
         this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
+        // this.updateTime()
     },
     updated() {
         this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
@@ -41,23 +47,30 @@ export default {
             if (this.$refs.audio.paused) {
                 this.$refs.audio.play()
                 this.setIsPlaying(true)
-                console.log(this.isPlaying)
+                this.updateTime()
             } else {
                 this.$refs.audio.pause()
                 this.setIsPlaying(false)
-                console.log(this.isPlaying)
+                clearInterval(this.timeLooper)
             }
         },
         showMusicDetail() {
             this.updateIsShowMusicDetail(true)
         },
-        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail'])
+        updateTime() {
+            this.timeLooper = setInterval(() => {
+                this.updateCurrentTime(this.$refs.audio.currentTime)
+                console.log(this.currentTime)
+            }, 200);
+        },
+        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentTime'])
     },
     watch: {
         currentMusicID: function () {
             console.log(this.currentMusicID)
             this.$refs.audio.autoplay = true
             this.setIsPlaying(true)
+            this.updateTime()
         }
     },
     components: {

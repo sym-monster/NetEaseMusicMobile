@@ -22,7 +22,8 @@
                 <img src="@/assets/needle-ab.png" alt="needle-ab" class="needleAB">
                 <img :src="musicInfo.al.picUrl" alt="music-cover" class="mucicCover">
                 <div class="lyric">
-                    <p v-for="item in finalLyric" :key="item" class="lyricItem">
+                    <p v-for="item in finalLyric" :key="item"
+                        :class="{ active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next) }">
                         {{ item.lrc }}
                     </p>
                 </div>
@@ -53,7 +54,7 @@ import { mapMutations } from 'vuex'
 
 export default {
     computed: {
-        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric']),
+        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric', 'currentTime']),
         finalLyric: function () {
             let resultArr
             if (this.lyric) {
@@ -62,12 +63,21 @@ export default {
                     let sec = item.slice(4, 6)
                     let mesc = item.slice(7, 10)
                     let lrc = item.slice(11, item.length)
+                    let time = parseInt(min) * 60 * 1000 + parseInt(sec) * 1000 + parseInt(mesc)
                     if (isNaN(Number(mesc))) {
                         mesc = item.slice(7, 9)
                         lrc = item.slice(10, item.length)
+                        time = parseInt(min) * 60 * 1000 + parseInt(sec) * 1000 + parseInt(mesc)
                     }
-                    return { min, sec, mesc, lrc }
+                    return { min, sec, mesc, time, lrc }
                 })
+                resultArr.forEach((item, index) => {
+                    if (index === resultArr.length - 1) {
+                        item.next = 0
+                    } else {
+                        item.next = resultArr[index + 1].time
+                    }
+                });
             }
             return resultArr
         }
@@ -193,10 +203,14 @@ export default {
             align-items: center;
             flex-direction: column;
             text-align: center;
-            .lyricItem {
+            line-height: 2em;
+            font-size: .3rem;
+            color: #DDD;
+
+            .active {
                 line-height: 2em;
-                font-size: .3rem;
-                color: #DDD;
+                font-size: .4rem;
+                color: white;
             }
         }
     }
