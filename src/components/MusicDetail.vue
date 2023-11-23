@@ -21,7 +21,7 @@
                 <img src="@/assets/disc-plus.png" alt="disc-plus" class="discPlus">
                 <img src="@/assets/needle-ab.png" alt="needle-ab" class="needleAB">
                 <img :src="musicInfo.al.picUrl" alt="music-cover" class="mucicCover">
-                <div class="lyric">
+                <div class="lyric" ref="lyricBlock">
                     <p v-for="item in finalLyric" :key="item"
                         :class="{ active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next) }">
                         {{ item.lrc }}
@@ -80,6 +80,16 @@ export default {
                 });
             }
             return resultArr
+        }
+    },
+    watch: {
+        currentTime: function() {
+            let highLightLine = document.querySelector("p.active")
+            console.log([highLightLine])
+            
+            if (highLightLine.offsetTop > 300) {
+                this.$refs.lyricBlock.scrollTop = highLightLine.offsetTop - 300
+            }
         }
     },
     mounted() {
