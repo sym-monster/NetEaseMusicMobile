@@ -38,10 +38,10 @@
             <div class="progress"></div>
             <div class="playerDashboard">
                 <van-icon name="replay" size=".5rem" />
-                <van-icon name="arrow-left" size=".5rem" />
+                <van-icon name="arrow-left" size=".5rem" @click="skipMusic(-1)" />
                 <van-icon name="pause-circle-o" size=".8rem" v-if="isPlaying" @click="exchangePlayerState" />
                 <van-icon name="play-circle-o" size=".8rem" v-else @click="exchangePlayerState" />
-                <van-icon name="arrow" size=".5rem" />
+                <van-icon name="arrow" size=".5rem" @click="skipMusic(1)" />
                 <van-icon name="list-switch" size=".5rem" />
             </div>
         </div>
@@ -53,13 +53,13 @@ import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
 
 export default {
-    data: function() {
+    data: function () {
         return {
             isShowLyric: false
         }
     },
     computed: {
-        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric', 'currentTime']),
+        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric', 'currentTime', 'currentIndex', 'currentPlayList']),
         finalLyric: function () {
             let resultArr
             if (this.lyric) {
@@ -88,10 +88,9 @@ export default {
         }
     },
     watch: {
-        currentTime: function() {
+        currentTime: function () {
             let highLightLine = document.querySelector("p.active")
-
-            if (highLightLine.offsetTop > 300) {
+            if (highLightLine && highLightLine.offsetTop > 300) {
                 this.$refs.lyricBlock.scrollTop = highLightLine.offsetTop - 300
             }
         }
@@ -110,7 +109,16 @@ export default {
         exchangeLyricState() {
             this.isShowLyric = !this.isShowLyric
         },
-        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail'])
+        skipMusic(value) {
+            let aimIndex = this.currentIndex + value
+            if (aimIndex < 0) {
+                aimIndex = this.currentPlayList.length - 1
+            } else if (aimIndex >= this.currentPlayList.length) {
+                aimIndex = 0
+            }
+            this.updateCurrentIndex(aimIndex)
+        },
+        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentIndex'])
     },
     props: ['musicInfo', 'playMusic']
 }
