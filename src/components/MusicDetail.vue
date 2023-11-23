@@ -20,8 +20,8 @@
             <div class="disc">
                 <img src="@/assets/disc-plus.png" alt="disc-plus" class="discPlus">
                 <img src="@/assets/needle-ab.png" alt="needle-ab" class="needleAB">
-                <img :src="musicInfo.al.picUrl" alt="music-cover" class="mucicCover">
-                <div class="lyric" ref="lyricBlock">
+                <img :src="musicInfo.al.picUrl" alt="music-cover" class="mucicCover" @click="exchangeLyricState">
+                <div class="lyric" ref="lyricBlock" @click="exchangeLyricState" v-show="isShowLyric">
                     <p v-for="item in finalLyric" :key="item"
                         :class="{ active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next) }">
                         {{ item.lrc }}
@@ -53,6 +53,11 @@ import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
 
 export default {
+    data: function() {
+        return {
+            isShowLyric: false
+        }
+    },
     computed: {
         ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric', 'currentTime']),
         finalLyric: function () {
@@ -85,8 +90,7 @@ export default {
     watch: {
         currentTime: function() {
             let highLightLine = document.querySelector("p.active")
-            console.log([highLightLine])
-            
+
             if (highLightLine.offsetTop > 300) {
                 this.$refs.lyricBlock.scrollTop = highLightLine.offsetTop - 300
             }
@@ -98,9 +102,13 @@ export default {
     methods: {
         back() {
             this.updateIsShowMusicDetail(false)
+            this.isShowLyric = false
         },
         exchangePlayerState() {
             this.playMusic()
+        },
+        exchangeLyricState() {
+            this.isShowLyric = !this.isShowLyric
         },
         ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail'])
     },
@@ -201,7 +209,6 @@ export default {
             height: 2.6rem;
             position: absolute;
             border-radius: 50%;
-            z-index: -1;
         }
 
         .lyric {

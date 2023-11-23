@@ -37,7 +37,6 @@ export default {
     },
     mounted() {
         this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
-        // this.updateTime()
     },
     updated() {
         this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
@@ -60,7 +59,6 @@ export default {
         updateTime() {
             this.timeLooper = setInterval(() => {
                 this.updateCurrentTime(this.$refs.audio.currentTime)
-                console.log(this.currentTime)
             }, 200);
         },
         ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentTime'])
