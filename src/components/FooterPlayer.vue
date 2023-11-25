@@ -15,7 +15,7 @@
         <audio ref="audio"
             :src="`https://music.163.com/song/media/outer/url?id=${currentPlayList[currentIndex].id}.mp3`"></audio>
         <van-popup v-model:show="isShowMusicDetail" position="right" :style="{ width: '100%', height: '100%' }">
-            <MusicDetail :musicInfo="currentPlayList[currentIndex]" :playMusic="playMusic"/>
+            <MusicDetail :musicInfo="currentPlayList[currentIndex]" :playMusic="playMusic" :addDuration="addDuration" />
         </van-popup>
     </div>
 </template>
@@ -40,6 +40,7 @@ export default {
     },
     updated() {
         this.$store.dispatch("getLyric", this.currentPlayList[this.currentIndex].id)
+        this.addDuration()
     },
     methods: {
         playMusic() {
@@ -56,12 +57,16 @@ export default {
         showMusicDetail() {
             this.updateIsShowMusicDetail(true)
         },
+        addDuration() {
+            this.updateDuration(this.$refs.audio.duration)
+        },
         updateTime() {
             this.timeLooper = setInterval(() => {
                 this.updateCurrentTime(this.$refs.audio.currentTime)
             }, 200);
+            this.updateDuration(this.$refs.audio.duration)
         },
-        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentTime'])
+        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentTime', 'updateDuration'])
     },
     watch: {
         currentMusicID: function () {

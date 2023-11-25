@@ -35,7 +35,7 @@
                 <van-icon name="comment-o" size=".5rem" />
                 <van-icon name="exchange" size=".5rem" />
             </div>
-            <div class="progress"></div>
+            <input class="progress" type="range" min="0" :max="duration" v-model="currentTime" step="0.05" />
             <div class="playerDashboard">
                 <van-icon name="replay" size=".5rem" />
                 <van-icon name="arrow-left" size=".5rem" @click="skipMusic(-1)" />
@@ -59,7 +59,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric', 'currentTime', 'currentIndex', 'currentPlayList']),
+        ...mapState(['isPlaying', 'isShowMusicDetail', 'lyric', 'currentTime', 'currentIndex', 'currentPlayList', 'duration']),
         finalLyric: function () {
             let resultArr
             if (this.lyric) {
@@ -77,26 +77,33 @@ export default {
                     return { min, sec, mesc, time, lrc }
                 })
                 resultArr.forEach((item, index) => {
-                    if (index === resultArr.length - 1) {
-                        item.next = 0
+                    if (index === resultArr.length - 1 || isNaN(resultArr[index + 1].time)) {
+                        item.next = 100000000
                     } else {
                         item.next = resultArr[index + 1].time
                     }
                 });
             }
+            console.log(resultArr)
             return resultArr
         }
     },
     watch: {
-        currentTime: function () {
+        currentTime: function (newValue) {
+            // 控制歌词显示
             let highLightLine = document.querySelector("p.active")
             if (highLightLine && highLightLine.offsetTop > 300) {
                 this.$refs.lyricBlock.scrollTop = highLightLine.offsetTop - 300
+            }
+            // 控制进度条是否下一曲
+            if (newValue === this.duration) {
+                this.skipMusic(1)
             }
         }
     },
     mounted() {
         console.log(this.musicInfo)
+        this.addDuration()
     },
     methods: {
         back() {
@@ -118,9 +125,9 @@ export default {
             }
             this.updateCurrentIndex(aimIndex)
         },
-        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentIndex'])
+        ...mapMutations(['setIsPlaying', 'updateIsShowMusicDetail', 'updateCurrentIndex', 'updateCurrentTime'])
     },
-    props: ['musicInfo', 'playMusic']
+    props: ['musicInfo', 'playMusic', 'addDuration']
 }
 </script>
 

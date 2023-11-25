@@ -29,7 +29,8 @@ export default createStore({
     isPlaying: false,
     isShowMusicDetail: false,
     lyric: [],
-    currentTime: 0
+    currentTime: 0,
+    duration: 0,
   },
   getters: {
   },
@@ -54,6 +55,9 @@ export default createStore({
     },
     updateCurrentTime(state, value) {
       state.currentTime = value
+    },
+    updateDuration(state, value) {
+      state.duration = value
     }
   },
   actions: {
