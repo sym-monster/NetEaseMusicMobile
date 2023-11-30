@@ -1,3 +1,6 @@
+
+import router from '@/router';
+
 <template>
   <div class="topNav">
     <div class="topLeft">
@@ -13,7 +16,7 @@
       <span>视频</span>
     </div>
 
-    <div class="topRight">
+    <div class="topRight" @click="$router.push('/search')">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-sousuo"></use>
       </svg>

@@ -124,6 +124,13 @@ export default {
 
         .name {
           font-size: 0.3rem;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          /* 设置显示的最大行数 */
+          overflow: hidden;
+          /* 显示省略号 */
+          text-overflow: ellipsis;
         }
       }
 
