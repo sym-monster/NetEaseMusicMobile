@@ -10,7 +10,7 @@
                 {{ item }}
             </span>
         </div>
-        <van-icon class="deleteAll" name="delete-o" size=".5rem"/>
+        <van-icon class="deleteAll" name="delete-o" size=".5rem" @click="cleanHistory"/>
     </div>
 </template>
 
@@ -31,10 +31,21 @@ export default {
     methods: {
         enterKey() {
             if (this.inputWord.length > 0) {
-                this.keywords.push(this.inputWord)
+                // 头部加一
+                this.keywords.unshift(this.inputWord)
+                // 去重
+                this.keywords = [...new Set(this.keywords)]
+                // 限制数组长度
+                if (this.keywords.length > 15) {
+                    this.keywords.splice(this.keywords.length - 1, 1)
+                }
                 localStorage.setItem("his_words", JSON.stringify(this.keywords))
                 this.inputWord = ''
             }
+        },
+        cleanHistory() {
+            localStorage.removeItem("his_words")
+            this.keywords = []
         }
     }
 }
@@ -63,6 +74,7 @@ export default {
 }
 .history {
     width: 100%;
+    max-width: 100vw;
     display: flex;
     align-items: flex-start; 
     padding: 0rem 0.2rem;   
@@ -76,16 +88,18 @@ export default {
         padding: 0rem .2rem;
         flex-grow: 1;
         .historyItem {
-            padding: .1rem .2rem;
+            font-size: .25rem;
+            padding: .05rem .1rem;
             background-color: #999;
-            border-radius: .3rem;
-            margin: 0rem .05rem;
+            border-radius: .5rem;
+            margin: .05rem .05rem;
             white-space: nowrap;
-            line-height: 2em;
+            line-height: 1.5em;
+            display: inline-block;
         }
     }
     .deleteAll {
-        padding-top: .05rem;
+        padding-top: .025rem;
     }
 }
 </style>
