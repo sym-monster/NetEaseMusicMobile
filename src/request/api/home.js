@@ -13,3 +13,10 @@ export function getMusicList() {
         url: "personalized?limit=10"
     })
 }
+
+export function searchMusic(keyword) {
+    return service({
+        method: "GET",
+        url: `search?keywords=${keyword}`
+    })
+}

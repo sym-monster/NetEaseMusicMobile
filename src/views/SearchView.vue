@@ -6,7 +6,7 @@
     <div class="history">
         <span class="historyTitle">历史</span>
         <div class="historyItemGroup">
-            <span class="historyItem" v-for="item in keywords" :key="item">
+            <span class="historyItem" v-for="item in keywords" :key="item" @click="searchHistoryItem(item)">
                 {{ item }}
             </span>
         </div>
@@ -15,11 +15,14 @@
 </template>
 
 <script>
+import { searchMusic } from "@/request/api/home.js"
+
 export default {
     data() {
         return {
             keywords: [],
-            inputWord: ''
+            inputWord: '',
+            searchResult: []
         }
     },
     mounted() {
@@ -29,7 +32,7 @@ export default {
         }
     },
     methods: {
-        enterKey() {
+        async enterKey() {
             if (this.inputWord.length > 0) {
                 // 头部加一
                 this.keywords.unshift(this.inputWord)
@@ -40,8 +43,17 @@ export default {
                     this.keywords.splice(this.keywords.length - 1, 1)
                 }
                 localStorage.setItem("his_words", JSON.stringify(this.keywords))
+
+                let response = await searchMusic(this.inputWord)
+                this.searchResult = response.data.result.songs
                 this.inputWord = ''
             }
+        },
+        async searchHistoryItem(value) {
+            let response = await searchMusic(value)
+            console.log(response)
+            this.searchResult = response.data.result.songs
+            console.log(this.searchResult)
         },
         cleanHistory() {
             localStorage.removeItem("his_words")
