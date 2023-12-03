@@ -41,6 +41,9 @@ export default createStore({
     updateCurrentPlayList(state, value) {
       state.currentPlayList = value
     },
+    pushCurrentPlayList(state, value) {
+      state.currentPlayList.push(value)
+    },
     updateCurrentIndex(state, value) {
       state.currentIndex = value
     },
