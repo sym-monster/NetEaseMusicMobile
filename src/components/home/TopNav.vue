@@ -10,7 +10,7 @@ import router from '@/router';
     </div>
 
     <div class="topContent">
-      <span>我的</span>
+      <span @click="$router.push('/profile')">我的</span>
       <span class="active">发现</span>
       <span>云村</span>
       <span>视频</span>
