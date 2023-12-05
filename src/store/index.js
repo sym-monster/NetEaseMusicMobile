@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { getMusicLyric } from '@/request/api/player.js'
+import { login } from '@/request/api/home.js'
 
 export default createStore({
   state: {
@@ -31,6 +32,8 @@ export default createStore({
     lyric: [],
     currentTime: 0,
     duration: 0,
+    isLogin: false,
+    isShowFooter: true,
   },
   getters: {
   },
@@ -67,6 +70,10 @@ export default createStore({
     async getLyric(context, value) {
       let response = await getMusicLyric(value)
       context.commit("updateLyric", response.data.lrc.lyric)
+    },
+    async toLogin(context, value) {
+      let response = await login(value)
+      console.log(response)
     }
   },
   modules: {

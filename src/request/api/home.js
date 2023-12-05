@@ -20,3 +20,10 @@ export function searchMusic(keyword) {
         url: `search?keywords=${keyword}`
     })
 }
+
+export function login(param) {
+    return service({
+        method: "GET",
+        url: `login/cellphone?phone=${param.phone}&password=${param.password}`
+    })
+}

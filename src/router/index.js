@@ -42,4 +42,12 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, form) => {
+  if(to.path == '/login') {
+    store.state.isShowFooter = false
+  } else {
+    store.state.isShowFooter = true
+  }
+})
+
 export default router
