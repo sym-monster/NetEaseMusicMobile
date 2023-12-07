@@ -29,7 +29,9 @@ export default {
             let response = await this.$store.dispatch('toLogin', { account: this.account, password: this.password })
             console.log(response)
             if(response.data.code === 200) {
+                this.$store.commit('updateUserProfile', response.data.profile)
                 this.$store.commit('updateLoginState', true)
+                localStorage.setItem('user_profile', JSON.stringify(response.data.profile))
                 this.$router.push('/profile')
             } else {
                 alert('手机号或密码错误')

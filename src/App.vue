@@ -4,9 +4,20 @@
 </template>
 <script>
 import FooterPlayer from "@/components/FooterPlayer.vue"
+
 export default {
   components: {
     FooterPlayer
+  },
+  mounted() {
+    let userProfile = JSON.parse(localStorage.getItem('user_profile'))
+    if (userProfile) {
+      this.$store.state.profile = userProfile
+      this.$store.state.isLogin = true
+    } else {
+      this.$store.state.profile = null
+      this.$store.state.isLogin = false
+    }
   }
 }
 </script>
