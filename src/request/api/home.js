@@ -24,6 +24,6 @@ export function searchMusic(keyword) {
 export function login(param) {
     return service({
         method: "GET",
-        url: `login/cellphone?phone=${param.phone}&password=${param.password}`
+        url: `login/cellphone?phone=${param.account}&password=${param.password}`
     })
 }

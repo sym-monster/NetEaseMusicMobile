@@ -25,8 +25,17 @@ export default {
         }
     },
     methods: {
-        toLogin() {
-            this.$store.dispatch('toLogin', { account: this.account, password: this.password })
+        async toLogin() {
+            let response = await this.$store.dispatch('toLogin', { account: this.account, password: this.password })
+            console.log(response)
+            if(response.data.code === 200) {
+                this.$store.commit('updateLoginState', true)
+                this.$router.push('/profile')
+            } else {
+                alert('手机号或密码错误')
+                this.account = ''
+                this.password = ''
+            }
         },
     },
 }

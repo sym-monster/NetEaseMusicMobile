@@ -64,6 +64,9 @@ export default createStore({
     },
     updateDuration(state, value) {
       state.duration = value
+    },
+    updateLoginState(state, value) {
+      state.isLogin = value
     }
   },
   actions: {
@@ -73,7 +76,7 @@ export default createStore({
     },
     async toLogin(context, value) {
       let response = await login(value)
-      console.log(response)
+      return response
     }
   },
   modules: {
